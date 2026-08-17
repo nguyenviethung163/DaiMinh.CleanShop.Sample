@@ -1,0 +1,4 @@
+@model OrderDetailsDto
+@{ViewData["Title"]="Order";}<h1>Order @Model.Id</h1><p>Status: <strong>@Model.Status</strong></p><p>@Model.ShippingLine1, @Model.City, @Model.Country @Model.PostalCode</p><table class="table"><thead><tr><th>Product</th><th>Qty</th><th>Unit</th><th>Subtotal</th></tr></thead><tbody>@foreach(var x in Model.Lines){<tr><td>@x.ProductName</td><td>@x.Quantity</td><td>@x.UnitPrice.ToString("0.00")</td><td>@x.Subtotal.ToString("0.00")</td></tr>}</tbody></table><h4>Total: @Model.Total.ToString("0.00") @Model.Currency</h4>
+
+@if(Model.Status==CleanShop.Core.Domain.Orders.OrderStatus.Submitted){<form asp-action="Pay" method="post" class="mt-3"><input type="hidden" name="id" value="@Model.Id.Value"/><button class="btn btn-success">Pay with fake gateway</button></form>}

@@ -1,0 +1,2 @@
+@model OrderDetailsDto
+@{ViewData["Title"]="Admin Order";}<h1>Order @Model.Id</h1><p>Status: @Model.Status</p><table class="table">@foreach(var x in Model.Lines){<tr><td>@x.ProductName</td><td>@x.Quantity</td><td>@x.Subtotal</td></tr>}</table>@if(Model.Status==CleanShop.Core.Domain.Orders.OrderStatus.Paid){<form asp-action="Ship" method="post"><input type="hidden" name="id" value="@Model.Id.Value"/><button class="btn btn-success">Ship order</button></form>}

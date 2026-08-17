@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Your_password123"
+    ports: ["1433:1433"]
+    volumes: ["cleanshop-sql:/var/opt/mssql"]
+    healthcheck:
+      test: ["CMD-SHELL", '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -Q "SELECT 1" || exit 1']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Database__Provider: ${DATABASE_PROVIDER:-SqlServer}
+      Database__InMemoryDatabaseName: ${IN_MEMORY_DATABASE_NAME:-CleanShop}
+      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=CleanShop;User Id=sa;Password=Your_password123;TrustServerCertificate=True;Encrypt=False"
+    ports: ["5080:8080"]
+volumes: { cleanshop-sql: {} }

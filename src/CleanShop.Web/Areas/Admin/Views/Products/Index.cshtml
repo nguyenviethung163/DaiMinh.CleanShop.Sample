@@ -1,0 +1,2 @@
+@model IReadOnlyList<ProductListItemDto>
+@{ViewData["Title"]="Admin Products";}<div class="d-flex justify-content-between"><h1>Products</h1><a class="btn btn-primary" asp-action="Create">Create</a></div><table class="table"><thead><tr><th>Name</th><th>SKU</th><th>Price</th><th>Stock</th><th></th></tr></thead><tbody>@foreach(var p in Model){<tr><td>@p.Name</td><td>@p.Sku</td><td>@p.Price</td><td>@p.StockQuantity</td><td><a asp-action="Edit" asp-route-id="@p.Id.Value">Edit</a></td></tr>}</tbody></table>

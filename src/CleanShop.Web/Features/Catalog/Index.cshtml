@@ -1,0 +1,2 @@
+@model IReadOnlyList<ProductListItemDto>
+@{ViewData["Title"]="Catalog";}<h1>Catalog</h1><div class="row g-3">@foreach(var p in Model){<div class="col-md-4"><div class="card h-100"><div class="card-body"><h5>@p.Name</h5><div class="text-muted">@p.Sku</div><strong>@p.Price.ToString("0.00") @p.Currency</strong><div>Stock: @p.StockQuantity</div><a class="btn btn-primary mt-3" asp-action="Details" asp-route-id="@p.Id.Value">Details</a></div></div></div>}</div>
